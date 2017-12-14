@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import registerServiceWorker from './utils/registerServiceWorker';
-import ClickCounter from './ClickCounter';
+import Panel from './Panel';
 
-ReactDom.render(<ClickCounter />, document.getElementById('root'));
+ReactDom.render(<Panel />, document.getElementById('root'));
 
 registerServiceWorker();
