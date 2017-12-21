@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import registerServiceWorker from './utils/registerServiceWorker';
-import Panel from './Panel';
+import {Provider} from 'react-redux';
 
-ReactDom.render(<Panel />, document.getElementById('root'));
+import store from './Store';
+import Routes from './Routes';
+import registerServiceWorker from './utils/registerServiceWorker';
+
+ReactDom.render(
+  <Provider store={store}>
+    <Routes />
+  </Provider>,
+  document.getElementById('root')
+);
 
 registerServiceWorker();
