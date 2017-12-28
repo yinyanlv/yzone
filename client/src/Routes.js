@@ -4,7 +4,7 @@ import {syncHistoryWithStore} from 'react-router-redux';
 
 import store from './Store';
 
-import {Portal} from './pages/portal';
+import Portal from './pages/Portal';
 
 const Routes = () => (
   <BrowserRouter>

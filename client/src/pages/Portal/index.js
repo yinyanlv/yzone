@@ -1,5 +1,3 @@
 import Portal from './view';
 
-export {
-  Portal
-};
+export default Portal;
