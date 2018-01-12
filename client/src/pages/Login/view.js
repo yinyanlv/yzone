@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import axios from 'axios';
 
 import {Form, Icon, Checkbox, Button, Input} from 'antd';
 import './style.scss';
@@ -15,6 +16,8 @@ class Login extends React.Component {
     this.state = {
       isLogging: false
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -64,8 +67,22 @@ class Login extends React.Component {
     );
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
 
+    e.preventDefault();
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+
+        axios.post('http://localhost:8888/register', values)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   }
 }
 
