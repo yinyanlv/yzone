@@ -5,11 +5,11 @@ import DocumentTitle from 'react-document-title';
 import axios from 'axios';
 import {Form, Icon, Checkbox, Button, Input} from 'antd';
 
-import './style.scss';
+import '../Login/style.scss';
 
 const FormItem = Form.Item;
 
-class Login extends React.Component {
+class Register extends React.Component {
 
   constructor() {
 
@@ -26,7 +26,7 @@ class Login extends React.Component {
     const {getFieldDecorator} = this.props.form;
 
     return (
-      <DocumentTitle title="登录">
+      <DocumentTitle title="注册">
         <div className="container">
           <div className="block-login">
             <div>
@@ -59,19 +59,37 @@ class Login extends React.Component {
               </FormItem>
               <FormItem>
                 {
-                  getFieldDecorator('remember', {
-                    valuePropName: 'checked',
-                    initialValue: true
+                  getFieldDecorator('password', {
+                    rules: [{
+                      required: true,
+                      message: '密码为必填项'
+                    }]
                   })(
-                    <Checkbox>记住我</Checkbox>
+                    <Input type="password" prefix={<Icon type="lock" />} placeholder="请再次输入密码" />
                   )
                 }
-                <Link to="/register" className="right">注册账号</Link>
+              </FormItem>
+              <FormItem>
+                {
+                  getFieldDecorator('email', {
+                    rules: [{
+                      required: true,
+                      message: '邮箱为必填项'
+                    }]
+                  })(
+                    <Input type="email" prefix={<Icon type="mail" />} placeholder="请输入邮箱" />
+                  )
+                }
               </FormItem>
               <FormItem style={
-                {marginBottom: '5px'}
+              {marginBottom: '5px'}
               }>
-                <Button type="primary" className="btn-login" htmlType="submit">登录</Button>
+                <Button type="primary" className="btn-login" htmlType="submit">注册</Button>
+              </FormItem>
+              <FormItem style={
+              {marginBottom: 0}
+              }>
+                <Link to="/login" className="right">使用已有账号登录</Link>
               </FormItem>
             </Form>
           </div>
@@ -99,6 +117,6 @@ class Login extends React.Component {
   }
 }
 
-const LoginWrapper = Form.create()(Login);
+const RegisterWrapper = Form.create()(Register);
 
-export default connect()(LoginWrapper);
+export default connect()(RegisterWrapper);

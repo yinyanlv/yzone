@@ -1,0 +1,45 @@
+@import "../../sass/vars";
+
+.container {
+ width: 100%;
+ height: 100%;
+ background: $bg-color;
+ position: relative;
+ background-image: url(../../assets/bg.svg);
+ background-repeat: no-repeat;
+ background-position: center;
+ background-size: 100%;
+}
+
+.block-login {
+
+ width: 380px;
+ padding: 20px;
+ background: #fff;
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -60%);
+ border-radius: 5px;
+ box-shadow: 0 0 10px #ccc;
+
+ .ant-form-item {
+  margin-bottom: 15px;
+ }
+
+ .right {
+  float:right;
+ }
+
+ .btn-login {
+  width: 100%;
+ }
+
+ .title{
+  font-size:34px;
+  text-align: center;
+  color: #888;
+  margin: 0 0 20px;
+  line-height: 44px;
+ }
+}
