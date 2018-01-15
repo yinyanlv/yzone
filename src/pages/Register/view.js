@@ -59,7 +59,7 @@ class Register extends React.Component {
               </FormItem>
               <FormItem>
                 {
-                  getFieldDecorator('password', {
+                  getFieldDecorator('repeatPassword', {
                     rules: [{
                       required: true,
                       message: '密码为必填项'

@@ -1,0 +1,52 @@
+.exception {
+ display: flex;
+ align-items: center;
+ height: 100%;
+
+ .image-wrapper {
+  flex: 0 0 62.5%;
+
+  .image {
+   height: 360px;
+   background-repeat: no-repeat;
+   background-position: center center;
+   background-size: contain;
+  }
+
+  .image-403 {
+   background-image: url(../../assets/403.svg);
+  }
+
+  .image-404 {
+   background-image: url(../../assets/404.svg);
+  }
+
+  .image-500 {
+   background-image: url(../../assets/500.svg);
+  }
+ }
+
+ .content {
+
+  h2 {
+   color: #434e59;
+   font-size: 72px;
+   line-height: 72px;
+   font-weight: 600;
+   margin-bottom: 24px;
+  }
+
+  .description {
+   color: #999;
+   font-size: 20px;
+   line-height: 28px;
+   margin-bottom: 16px;
+  }
+
+  .actions {
+   button:not(:last-child) {
+    margin-right: 8px;
+   }
+  }
+ }
+}
