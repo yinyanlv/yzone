@@ -115,7 +115,7 @@ class ModuleList extends React.Component {
       <div className="list-wrapper">
         <List
           rowKey="id"
-          grid={{gutter: 24, lg: 5, md: 3, sm: 1, xs: 1}}
+          grid={{gutter: 24, lg: 4, md: 3, sm: 1, xs: 1}}
           dataSource={this.list}
           renderItem={
             item => {

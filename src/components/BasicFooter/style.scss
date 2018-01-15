@@ -1,0 +1,12 @@
+@import "../../scss/vars";
+
+.basic-footer{
+ margin: 10px 0 15px;
+
+ .copyright{
+  font-size:14px;
+  color: $lightest-font-color;
+  text-align: center;
+  line-height: 20px;
+ }
+}
