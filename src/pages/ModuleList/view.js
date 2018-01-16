@@ -112,29 +112,30 @@ class ModuleList extends React.Component {
   render() {
 
     return (
-      <div className="list-wrapper">
-        <List
-          rowKey="id"
-          grid={{gutter: 24, lg: 4, md: 3, sm: 1, xs: 1}}
-          dataSource={this.list}
-          renderItem={
-            item => {
-              return (
-                <List.Item>
-                  <Card hoverable>
-                    <Card.Meta
-                      avatar={<img alt="" className="avatar" src={item.imgUrl} />}
-                      title={<a href="#">{item.title}</a>}
-                      description={item.description}
-                    />
-                  </Card>
-                </List.Item>
-              );
+      <div className="basic-content">
+        <div className="list-wrapper">
+          <List
+            rowKey="id"
+            grid={{gutter: 24, lg: 4, md: 3, sm: 1, xs: 1}}
+            dataSource={this.list}
+            renderItem={
+              item => {
+                return (
+                  <List.Item>
+                    <Card hoverable>
+                      <Card.Meta
+                        avatar={<img alt="" className="avatar" src={item.imgUrl} />}
+                        title={<a href="#">{item.title}</a>}
+                        description={item.description}
+                      />
+                    </Card>
+                  </List.Item>
+                );
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
-
     );
   }
 }

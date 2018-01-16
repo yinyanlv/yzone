@@ -29,7 +29,7 @@ class BasicLayout extends React.PureComponent {
 
     return (
       <DocumentTitle title={this.getTitle()}>
-        <Layout>
+        <Layout style={{height: 'auto'}}>
           <BasicHeader/>
           <Layout.Content>
             <Route path="/module-list" component={ModuleList} />
