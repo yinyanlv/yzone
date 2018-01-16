@@ -1,38 +1,45 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import DocumentTitle from 'react-document-title';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
-import {Layout, Icon} from 'antd';
+import {Layout} from 'antd';
 import {BasicHeader} from '../components/BasicHeader';
 import {BasicFooter} from '../components/BasicFooter';
 import {ModuleList} from '../pages/ModuleList';
 
+const pageTitleMap = [{
+  path: '/app/module-list',
+  title: '功能模块列表'
+}];
+
 class BasicLayout extends React.PureComponent {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
-  getTitle() {
+  getPageTitle() {
+    const {location} = this.props;
 
-    return '标题';
+    let item = pageTitleMap.filter((item) => {
+      return item.path === location.pathname
+    })[0];
+
+    return item.title || 'yzone';
   }
 
   render() {
 
-    let layout = (
-      <Layout>
-
-      </Layout>
-    );
-
     return (
-      <DocumentTitle title={this.getTitle()}>
+      <DocumentTitle title={this.getPageTitle()}>
         <Layout style={{height: 'auto'}}>
           <BasicHeader/>
           <Layout.Content>
-            <Route path="/module-list" component={ModuleList} />
+            <Switch>
+              <Route path="/app/module-list" component={ModuleList}/>
+              <Redirect to="/404" push/>
+            </Switch>
           </Layout.Content>
           <BasicFooter/>
         </Layout>
@@ -41,5 +48,13 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect()(BasicLayout);
+function mapStateToProps(state, ownProps) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout);
 

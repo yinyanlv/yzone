@@ -1,8 +1,6 @@
 import React from 'react';
-import {Router, BrowserRouter, Route, Switch} from 'react-router-dom';
-import {syncHistoryWithStore} from 'react-router-redux';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
-import store from './Store';
 import {Login} from './pages/Login';
 import {Register} from './pages/Register';
 import {Exception403, Exception404, Exception500} from './pages/Exception';
@@ -11,12 +9,12 @@ import BasicLayout from './layouts/BasicLayout';
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={Login} exact />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/403" component={Exception403} />
-      <Route path="/500" component={Exception500} />
-      <Route component={BasicLayout} />
+      <Route path="/login" component={Login} exact />
+      <Route path="/register" component={Register} exact />
+      <Route path="/403" component={Exception403} exact />
+      <Route path="/500" component={Exception500} exact />
+      <Route path="/app" component={BasicLayout} />
+      <Redirect path="/" to="/app/module-list"  exact />
       <Route component={Exception404} />
     </Switch>
   </BrowserRouter>

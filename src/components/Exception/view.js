@@ -1,4 +1,5 @@
 import React, {createElement} from 'react';
+import DocumentTitle  from 'react-document-title';
 import {Button} from 'antd';
 
 import './style.scss';
@@ -20,21 +21,23 @@ const metaMap = {
 
 export default ({type='404', title, description, actions, linkElement = 'a', ...rest}) => {
   return (
-    <div className="exception" {...rest}>
-      <div className="image-wrapper">
-        <div className={`image image-${type}`}></div>
-      </div>
-      <div className="content">
-        <h2>{title || metaMap[type].title}</h2>
-        <div className="description">
-          {description || metaMap[type].description}
+    <DocumentTitle title={title || metaMap[type].title}>
+      <div className="exception" {...rest}>
+        <div className="image-wrapper">
+          <div className={`image image-${type}`}></div>
         </div>
-        <div className="actions">
-          {
-            actions || createElement(linkElement, {to: '/', href: '/'}, <Button type="primary">返回首页</Button>)
-          }
+        <div className="content">
+          <h2>{title || metaMap[type].title}</h2>
+          <div className="description">
+            {description || metaMap[type].description}
+          </div>
+          <div className="actions">
+            {
+              actions || createElement(linkElement, {to: '/', href: '/'}, <Button type="primary">返回首页</Button>)
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </DocumentTitle>
   );
 };

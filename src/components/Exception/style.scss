@@ -4,12 +4,12 @@
  height: 100%;
 
  .image-wrapper {
-  flex: 0 0 62.5%;
+  flex: 0 0 50%;
 
   .image {
    height: 360px;
    background-repeat: no-repeat;
-   background-position: center center;
+   background-position: right center;
    background-size: contain;
   }
 
@@ -27,6 +27,7 @@
  }
 
  .content {
+  padding-left: 50px;
 
   h2 {
    color: #434e59;
