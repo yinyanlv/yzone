@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
-import {Form, Icon, Button, Input} from 'antd';
+import {Form, Icon, Button, Input, Alert} from 'antd';
 
 import '../Login/style.scss';
 import {register} from './actions';
+import {STARTED, FAILURE} from './status';
 
 const FormItem = Form.Item;
 
@@ -25,12 +26,12 @@ class Register extends React.Component {
 
   componentDidMount() {
 
-    this.context.store.subscribe(this.onChange);
+    this.unsubscribe = this.context.store.subscribe(this.onChange);
   }
 
   componentWillUnmount() {
 
-    this.context.store.unsubscribe(this.onChange);
+    this.unsubscribe();
   }
 
   getOwnState() {
@@ -56,6 +57,20 @@ class Register extends React.Component {
     });
   }
 
+  renderMessage(message) {
+
+    return (
+      <Alert
+        type="error"
+        message={message}
+        showIcon
+        style={{
+          marginBottom: '15px'
+        }}
+      />
+    );
+  }
+
   render() {
     const {getFieldDecorator} = this.props.form;
 
@@ -67,6 +82,9 @@ class Register extends React.Component {
               <h2 className="title">yzone</h2>
             </div>
             <Form onSubmit={this.handleSubmit}>
+              {
+                this.state.status === FAILURE && this.renderMessage('该用户名已被注册')
+              }
               <FormItem>
                 {
                   getFieldDecorator('username', {
@@ -109,20 +127,19 @@ class Register extends React.Component {
                     rules: [{
                       required: true,
                       message: '邮箱为必填项'
+                    }, {
+                      type: 'email',
+                      message: '邮箱格式不正确'
                     }]
                   })(
-                    <Input type="email" prefix={<Icon type="mail" />} placeholder="请输入邮箱" />
+                    <Input prefix={<Icon type="mail" />} placeholder="请输入邮箱" />
                   )
                 }
               </FormItem>
-              <FormItem style={
-              {marginBottom: '5px'}
-              }>
-                <Button type="primary" className="btn-login" htmlType="submit">{ this.state.status === 'loading' ? '注册中...' : '注册'}</Button>
+              <FormItem style={{marginBottom: '5px'}}>
+                <Button type="primary" className="btn-login" htmlType="submit" loading={this.state.status === STARTED}>注册</Button>
               </FormItem>
-              <FormItem style={
-              {marginBottom: 0}
-              }>
+              <FormItem style={{marginBottom: 0}}>
                 <Link to="/login" className="right">使用已有账号登录</Link>
               </FormItem>
             </Form>
@@ -137,6 +154,7 @@ Register.contextTypes = {
   store: PropTypes.object
 };
 
+
 const RegisterWrapper = Form.create()(Register);
 
-export default RegisterWrapper;
+export default connect()(RegisterWrapper);
