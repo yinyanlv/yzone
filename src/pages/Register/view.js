@@ -1,25 +1,59 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
-import axios from 'axios';
-import {Form, Icon, Checkbox, Button, Input} from 'antd';
+import {Form, Icon, Button, Input} from 'antd';
 
 import '../Login/style.scss';
+import {register} from './actions';
 
 const FormItem = Form.Item;
 
 class Register extends React.Component {
 
-  constructor() {
+  constructor(props, context) {
 
-    super();
-
-    this.state = {
-      isLogging: false
-    };
+    super(props, context);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.getOwnState = this.getOwnState.bind(this);
+
+    this.state = this.getOwnState();
+  }
+
+  componentDidMount() {
+
+    this.context.store.subscribe(this.onChange);
+  }
+
+  componentWillUnmount() {
+
+    this.context.store.unsubscribe(this.onChange);
+  }
+
+  getOwnState() {
+
+    return this.context.store.getState()['register'];
+  }
+
+  onChange() {
+
+    this.setState(this.getOwnState());
+  }
+
+  handleSubmit(e) {
+
+    e.preventDefault();
+
+    this.props.form.validateFields((err, params) => {
+      if (!err) {
+        let action = register(params);
+
+        this.context.store.dispatch(action);
+      }
+    });
   }
 
   render() {
@@ -84,7 +118,7 @@ class Register extends React.Component {
               <FormItem style={
               {marginBottom: '5px'}
               }>
-                <Button type="primary" className="btn-login" htmlType="submit">注册</Button>
+                <Button type="primary" className="btn-login" htmlType="submit">{ this.state.status === 'loading' ? '注册中...' : '注册'}</Button>
               </FormItem>
               <FormItem style={
               {marginBottom: 0}
@@ -97,26 +131,12 @@ class Register extends React.Component {
       </DocumentTitle>
     );
   }
-
-  handleSubmit(e) {
-
-    e.preventDefault();
-
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-
-        axios.post('http://localhost:8888/register', values)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-  }
 }
+
+Register.contextTypes = {
+  store: PropTypes.object
+};
 
 const RegisterWrapper = Form.create()(Register);
 
-export default connect()(RegisterWrapper);
+export default RegisterWrapper;

@@ -85,9 +85,10 @@ class Login extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFields((err, values) => {
+      
       if (!err) {
 
-        axios.post('http://localhost:8888/register', values)
+        axios.post('http://localhost:8888/api/register', values)
           .then((res) => {
             console.log(res);
           })
