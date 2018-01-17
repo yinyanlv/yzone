@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {push} from 'react-router-redux';
 
 import {REGISTER_STARTED, REGISTER_SUCCESS, REGISTER_FAILURE} from './actionTypes';
 import config from '../../config';
+import history from '../../utils/history';
 
 export const registerStarted = () => ({
   type: REGISTER_STARTED
@@ -27,8 +27,14 @@ export const register = (params) => {
 
     axios.post(url, params)
       .then((res) => {
-        dispatch(registerSuccess(res));
-        push('/login');
+
+        if (res.data.success) {
+
+          dispatch(registerSuccess(res.data));
+          history.push('/login');
+        } else {
+          dispatch(registerFailure(res.data));
+        }
       })
       .catch((err) => {
         dispatch(registerFailure(err));

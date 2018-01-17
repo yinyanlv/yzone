@@ -83,7 +83,7 @@ class Register extends React.Component {
             </div>
             <Form onSubmit={this.handleSubmit}>
               {
-                this.state.status === FAILURE && this.renderMessage('该用户名已被注册')
+                this.state.status === FAILURE ? this.renderMessage(this.state.message || '该用户名已被注册') : null
               }
               <FormItem>
                 {
