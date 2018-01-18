@@ -13,50 +13,13 @@ const FormItem = Form.Item;
 
 class Register extends React.Component {
 
-  constructor(props, context) {
+  constructor() {
 
-    super(props, context);
+    super(...arguments);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.getOwnState = this.getOwnState.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.checkRepeatPassword = this.checkRepeatPassword.bind(this);
-
-    this.state = this.getOwnState();
-  }
-
-  componentDidMount() {
-
-    this.unsubscribe = this.context.store.subscribe(this.onChange);
-  }
-
-  componentWillUnmount() {
-
-    this.unsubscribe();
-  }
-
-  getOwnState() {
-
-    return this.context.store.getState()['register'];
-  }
-
-  onChange() {
-
-    this.setState(this.getOwnState());
-  }
-
-  handleSubmit(e) {
-
-    e.preventDefault();
-
-    this.props.form.validateFields((err, params) => {
-      if (!err) {
-        let action = register(params, this.props.history);
-
-        this.context.store.dispatch(action);
-      }
-    });
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   renderMessage(message) {
@@ -97,6 +60,17 @@ class Register extends React.Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+
+    this.props.form.validateFields((err, params) => {
+      if (!err) {
+        let action = register(params, this.props.history);
+        this.props.submit(action);
+      }
+    });
+  }
+
   render() {
     const {getFieldDecorator} = this.props.form;
 
@@ -109,7 +83,7 @@ class Register extends React.Component {
             </div>
             <Form onSubmit={this.handleSubmit}>
               {
-                this.state.status === FAILURE ? this.renderMessage(this.state.message || '该用户名已被注册') : null
+                this.props.status === FAILURE ? this.renderMessage(this.props.message || '该用户名已被注册') : null
               }
               <FormItem>
                 {
@@ -119,7 +93,7 @@ class Register extends React.Component {
                       message: '用户名为必填项'
                     }]
                   })(
-                    <Input prefix={<Icon type="user" />} placeholder="请输入用户名" />
+                    <Input prefix={<Icon type="user"/>} placeholder="请输入用户名"/>
                   )
                 }
               </FormItem>
@@ -133,7 +107,7 @@ class Register extends React.Component {
                       validator: this.checkRepeatPassword
                     }]
                   })(
-                    <Input type="password" prefix={<Icon type="lock" />} placeholder="请输入密码" />
+                    <Input type="password" prefix={<Icon type="lock"/>} placeholder="请输入密码"/>
                   )
                 }
               </FormItem>
@@ -147,7 +121,7 @@ class Register extends React.Component {
                       validator: this.checkPassword
                     }]
                   })(
-                    <Input type="password" prefix={<Icon type="lock" />} placeholder="请再次输入密码" />
+                    <Input type="password" prefix={<Icon type="lock"/>} placeholder="请再次输入密码"/>
                   )
                 }
               </FormItem>
@@ -162,12 +136,12 @@ class Register extends React.Component {
                       message: '邮箱格式不正确'
                     }]
                   })(
-                    <Input prefix={<Icon type="mail" />} placeholder="请输入邮箱" />
+                    <Input prefix={<Icon type="mail"/>} placeholder="请输入邮箱"/>
                   )
                 }
               </FormItem>
               <FormItem style={{marginBottom: '5px'}}>
-                <Button type="primary" className="btn-login" htmlType="submit" loading={this.state.status === STARTED}>注册</Button>
+                <Button type="primary" className="btn-login" htmlType="submit" loading={this.props.status === STARTED}>注册</Button>
               </FormItem>
               <FormItem style={{marginBottom: 0}}>
                 <Link to="/login" className="right">使用已有账号登录</Link>
@@ -186,4 +160,20 @@ Register.contextTypes = {
 
 const RegisterWrapper = Form.create()(Register);
 
-export default connect()(RegisterWrapper);
+function mapStateToProps(state, ownProps) {
+
+  return {
+    ...state['register']
+  };
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+
+  return {
+    submit: (action) => {
+      dispatch(action);
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterWrapper);
