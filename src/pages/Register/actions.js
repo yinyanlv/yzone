@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import {REGISTER_STARTED, REGISTER_SUCCESS, REGISTER_FAILURE} from './actionTypes';
 import config from '../../config';
-import history from '../../utils/history';
 
 export const registerStarted = () => ({
   type: REGISTER_STARTED
@@ -18,7 +17,7 @@ export const registerFailure = (error) => ({
   error
 });
 
-export const register = (params) => {
+export const register = (params, history) => {
   return (dispatch, getState) => {
 
     let url = `${config.backendBasePath}/register`;

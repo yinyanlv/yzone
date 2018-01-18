@@ -20,6 +20,8 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.getOwnState = this.getOwnState.bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
+    this.checkRepeatPassword = this.checkRepeatPassword.bind(this);
 
     this.state = this.getOwnState();
   }
@@ -50,7 +52,7 @@ class Register extends React.Component {
 
     this.props.form.validateFields((err, params) => {
       if (!err) {
-        let action = register(params);
+        let action = register(params, this.props.history);
 
         this.context.store.dispatch(action);
       }
@@ -69,6 +71,30 @@ class Register extends React.Component {
         }}
       />
     );
+  }
+
+  checkPassword(rule, val, callback) {
+
+    let form = this.props.form;
+    let password = form.getFieldValue('password');
+
+    if (val && password && val !== password) {
+      return callback('两次输入的密码不一致');
+    } else {
+      callback();
+    }
+  }
+
+  checkRepeatPassword(rule, val, callback) {
+
+    let form = this.props.form;
+    let repeatPassword = form.getFieldValue('repeatPassword');
+
+    if (val && repeatPassword && val !== repeatPassword) {
+      callback('两次输入的密码不一致');
+    } else {
+      callback();
+    }
   }
 
   render() {
@@ -103,6 +129,8 @@ class Register extends React.Component {
                     rules: [{
                       required: true,
                       message: '密码为必填项'
+                    }, {
+                      validator: this.checkRepeatPassword
                     }]
                   })(
                     <Input type="password" prefix={<Icon type="lock" />} placeholder="请输入密码" />
@@ -115,6 +143,8 @@ class Register extends React.Component {
                     rules: [{
                       required: true,
                       message: '密码为必填项'
+                    }, {
+                      validator: this.checkPassword
                     }]
                   })(
                     <Input type="password" prefix={<Icon type="lock" />} placeholder="请再次输入密码" />
@@ -153,7 +183,6 @@ class Register extends React.Component {
 Register.contextTypes = {
   store: PropTypes.object
 };
-
 
 const RegisterWrapper = Form.create()(Register);
 
