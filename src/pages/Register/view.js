@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import {Form, Icon, Button, Input, Alert} from 'antd';
@@ -153,10 +152,6 @@ class Register extends React.Component {
     );
   }
 }
-
-Register.contextTypes = {
-  store: PropTypes.object
-};
 
 const RegisterWrapper = Form.create()(Register);
 
