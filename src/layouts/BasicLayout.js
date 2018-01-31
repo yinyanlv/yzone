@@ -26,7 +26,7 @@ class BasicLayout extends React.PureComponent {
       return item.path === location.pathname
     })[0];
 
-    return item.title || 'yzone';
+    return item && item.title || 'yzone';
   }
 
   render() {
